@@ -33,7 +33,8 @@ Polynomial::Polynomial(const Polynomial& polynomial): _degree(polynomial._degree
 	}
 }
 Polynomial::~Polynomial(){
-	// DO THIS FIRST TO PREVENT MEMORY LEAKS!
+	//only coefficients need to be removed from the heap in order to prevent memory leak
+	delete[] _coefficients;
 }
 const Polynomial Polynomial::Sum(const Polynomial& rhs)const{
 	return Polynomial(0);
