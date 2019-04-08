@@ -116,7 +116,22 @@ const Polynomial Polynomial::Divide(const Polynomial& rhs)const{
 	return Polynomial(0);
 }
 const Polynomial Polynomial::Derive()const{
-	return Polynomial(0);
+	//when doing derivation, degree of a resulting polynomial is always decreased by 1
+	//create new polynomial with all zero coefficients and degree = _degree - 1
+	//this will be a return value of a function
+	Polynomial retVal(_degree - 1);
+	//iterate through all of the coefficients, multiply position i (starting from 1) with 
+	//coefficient at that position and store the result at position i-1 in the resulting 
+	//polynomial. For example, when 3x^2 is derived, result is 3*2x (position of original
+	//coefficient was 2 because of x^2, coefficient was 3, so 3*2 will be stored at the
+	//position 1 (x) in the resulting polynomial. Repeat the same for all coefficients from
+	//the starting polynomial
+	for (size_t i = 0; i < _degree; i++) {
+		retVal._coefficients[i] = _coefficients[i + 1] * (i + 1);
+	}
+	//return the result
+	return retVal;
+	
 }
 float Polynomial::Evaluate(float x)const{
 	return FLT_MAX;
