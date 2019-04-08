@@ -83,6 +83,7 @@ const Polynomial Polynomial::Subtract(const Polynomial& rhs)const{
 	return retVal.Sum(rhs.Minus());
 	
 }
+
 const Polynomial Polynomial::Minus()const{
 	Polynomial retVal(*this);
 	for (size_t i = 0; i < _degree + 1; i++) {
@@ -90,8 +91,26 @@ const Polynomial Polynomial::Minus()const{
 	}
 	return retVal;
 }
+
 const Polynomial Polynomial::Multiply(const Polynomial& rhs)const{
-	return Polynomial(0);
+	//when multiplying polynomials, degree of a product will be the sum of both
+	int degree = _degree + rhs._degree;
+	//create new polynomial of a given degree (please note that all coefficients will be zero
+	//as a result of a constructor from above (the first one given). This will be return value
+	Polynomial retVal(degree);
+	//loop through all coefficients from the first polynomial
+	for (size_t i = 0; i < _degree + 1; i++) {
+		//and loop through all coefficients from the other polynomial
+		for (size_t j = 0; j < rhs._degree + 1; j++) {
+			//multiply coefficients at positions i and j and store them at 
+			//position i+j in the resulting polynomial (for example, if you
+			//multiply 2x^2 and 3x^3 result will be 6x^5 which is 2*3 stored 
+			//at position 5 in the resulting polynomial
+			retVal._coefficients[i + j] += _coefficients[i] * rhs._coefficients[j];
+		}
+	}
+	return retVal;
+	
 }
 const Polynomial Polynomial::Divide(const Polynomial& rhs)const{
 	return Polynomial(0);
