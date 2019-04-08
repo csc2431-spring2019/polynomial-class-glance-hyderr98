@@ -155,7 +155,27 @@ float Polynomial::Evaluate(float x)const{
 	
 }
 float Polynomial::Integrate(float start, float end)const{
-	return FLT_MAX;
+	//when doing integration, degree of a resulting polynomial is always increased by 1
+	//create new polynomial with all zero coefficients and degree = _degree + 1
+	//this will be a return value of a function
+	Polynomial retVal(_degree + 1);
+	//iterate through all of the coefficients, first position will be zero, second will be
+	//coefficient[0] from starting polynomial, and for the
+	//rest divide coefficient at position i (starting from 1) with position (i+1), and 
+	//store the result at position i+1 in the resulting 
+	//polynomial. For example, when 3x^2 is integrated, result is 3/3*x^3 (position of original
+	//coefficient was 2 because of x^2, coefficient was 3, so 3/(2+1) will be stored at the
+	//position 3 (x^3) in the resulting polynomial. Repeat the same for all coefficients from
+	//the starting polynomial
+	retVal._coefficients[0] = 0;
+	retVal._coefficients[1] = _coefficients[0];
+	for (size_t i = 1; i < _degree + 1; i++) {
+		retVal._coefficients[i + 1] = _coefficients[i] / (i + 1);
+	}
+	//now, we have integrated the polynomial, in order to calculate integral over interval we need to
+	//evaluate integral at end (argument) and subtract from it evaluated integral at start(argument)
+	return retVal.Evaluate(end) - retVal.Evaluate(start);
+	
 }
 const Polynomial& Polynomial::operator=(const Polynomial& rhs){
 	if (&rhs == this){
