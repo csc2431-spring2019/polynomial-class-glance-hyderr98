@@ -134,7 +134,25 @@ const Polynomial Polynomial::Derive()const{
 	
 }
 float Polynomial::Evaluate(float x)const{
-	return FLT_MAX;
+	//result that will be return once we are done
+	float result = 0;
+	//term will hold exponent values while we go through the coefficients
+	//first it is 1, then it will be x, then x^2, ....
+	float term = 1;
+	//iterate through all of the coefficients
+	for (size_t i = 0; i < _degree + 1; i++) {
+		//update previous result with new value
+		//in first iteration it will be result = coefficient[0] * 1
+		//in second iteration we will add coefficient[1]*1*x to previously calculated
+		//result, so the result will be coefficient[0] + coefficient[1]*x
+		//... and in that manner until we iterate through all coefficients	
+		result += term * _coefficients[i];
+		//update term variable, so it is ready for the next iteration loop (first 1, then x, then x^2,...)
+		term *= x;
+	}
+
+	return result;
+	
 }
 float Polynomial::Integrate(float start, float end)const{
 	return FLT_MAX;
