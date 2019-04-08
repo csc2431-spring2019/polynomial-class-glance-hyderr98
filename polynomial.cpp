@@ -36,8 +36,42 @@ Polynomial::~Polynomial(){
 	//only coefficients need to be removed from the heap in order to prevent memory leak
 	delete[] _coefficients;
 }
-const Polynomial Polynomial::Sum(const Polynomial& rhs)const{
-	return Polynomial(0);
+const Polynomial Polynomial::Sum(const Polynomial& rhs)const {
+	//when summing polynomials, we will first check which one has higher order
+	if (_degree > rhs._degree)
+	{
+		//if it is the one to which "this" pointer points
+		//create clone of it (since this function is const, we cannot change this object)
+		//this will be return value from the function
+		Polynomial retVal(*this);
+		//coefficients that are not present in rhs._coefficients will remain the same
+		//only the ones which are present in both polynomials will be summed
+		for (size_t i = 0; i < rhs._degree + 1; i++)
+		{
+			//go through all of them and add them to corresponding coefficients from retVal 
+			retVal._coefficients[i] += rhs._coefficients[i];
+		}
+		//at the end, return retVal
+		return retVal;
+	}
+	else
+	{
+		//if we are here, this means that rhs polynomial has more coefficients compared
+		//to this object (rhs is higher order polynomial). So, repeat all from above, 
+		//but with swapped roles. First, create polynomial (which will be a return value)
+		//base on rhs polynomial of a higher order
+		Polynomial retVal(rhs);
+		//go through all coefficients from this object
+		//just to make it more clear, you can refer to _degree also as this->_degree, 
+		//and to _coefficients as this->_coefficients
+		for (size_t i = 0; i < _degree + 1; i++)
+		{
+			//add overlaping coefficients from this object to the ones from retVal
+			retVal._coefficients[i] += _coefficients[i];
+		}
+		//return retVal once you are done
+		return retVal;
+	}
 }
 const Polynomial Polynomial::Subtract(const Polynomial& rhs)const{
 	return Polynomial(0);
