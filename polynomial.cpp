@@ -73,8 +73,15 @@ const Polynomial Polynomial::Sum(const Polynomial& rhs)const {
 		return retVal;
 	}
 }
+
 const Polynomial Polynomial::Subtract(const Polynomial& rhs)const{
-	return Polynomial(0);
+	//create clone of this object which will be return value
+	//from a function (hence retVal, similar as above)
+	Polynomial retVal(*this);
+	//subtract of polynomial can be performed 
+	//using sum and minus on the other (P1 - P2 = P1 + (-P2))
+	return retVal.Sum(rhs.Minus());
+	
 }
 const Polynomial Polynomial::Minus()const{
 	Polynomial retVal(*this);
